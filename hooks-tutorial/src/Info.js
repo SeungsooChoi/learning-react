@@ -1,23 +1,12 @@
-import React, { useReducer } from "react";
-
-// useReducer의 가장 큰 장점 : 컴포넌트 업데이트 로직을 컴포넌트 바깥으로 빼낼 수 있다.
-function reducer(state, action) {
-  return {
-    ...state,
-    [action.name]: action.value,
-  };
-}
+import React from "react";
+import useInputs from "./useInputs";
 
 const Info = () => {
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, onChange] = useInputs({
     name: "",
     nickname: "",
   });
   const { name, nickname } = state;
-
-  const onChange = (e) => {
-    dispatch(e.target); // e.target이 reducer의 action으로 간다
-  };
 
   return (
     <div>
