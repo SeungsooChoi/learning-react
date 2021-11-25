@@ -1,32 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useReducer } from "react";
+
+// useReducer의 가장 큰 장점 : 컴포넌트 업데이트 로직을 컴포넌트 바깥으로 빼낼 수 있다.
+function reducer(state, action) {
+  return {
+    ...state,
+    [action.name]: action.value,
+  };
+}
 
 const Info = () => {
-  const [name, setName] = useState("");
-  const [nickname, setNickname] = useState("");
+  const [state, dispatch] = useReducer(reducer, {
+    name: "",
+    nickname: "",
+  });
+  const { name, nickname } = state;
 
-  // componentDidMount와 componentDidUpdate를 합친 형태.. 마운트 될때만 실행하고싶으면 두번째 파라미터로 []를 넣어주면 된다.
-  useEffect(() => {
-    console.log("렌더링이 완료되었습니다.");
-    console.log(name);
-
-    return () => {
-      console.log("cleanup : 언마운트 되기 전이나 업데이트 직전");
-    };
-  }, [name]);
-
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  const onChangeNickname = (e) => {
-    setNickname(e.target.value);
+  const onChange = (e) => {
+    dispatch(e.target); // e.target이 reducer의 action으로 간다
   };
 
   return (
     <div>
       <div>
-        <input input={name} onChange={onChangeName} />
-        <input input={nickname} onChange={onChangeNickname} />
+        <input name="name" input={name} onChange={onChange} />
+        <input name="nickname" input={nickname} onChange={onChange} />
       </div>
       <div>
         <div>
